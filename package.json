@@ -1,0 +1,27 @@
+{
+  "name": "course",
+  "version": "1.0.0",
+  "description": "Курсовая работа по ООП",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx webpack --mode development",
+    "build": "npx webpack --mode production",
+    "watch": "webpack --mode development --watch"
+  },
+  "keywords": [
+    "js",
+    "javascript",
+    "webpack",
+    "course",
+    "oop"
+  ],
+  "author": "WriteCoin <sovtsardom@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^4.5.0",
+    "raw-loader": "^4.0.2",
+    "webpack": "^5.11.0",
+    "webpack-cli": "^4.2.0"
+  }
+}
