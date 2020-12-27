@@ -1,4 +1,5 @@
 import { L } from './L'
+import { thrall } from './thrall'
 
 export class Prophet extends L {
   constructor(params) {
@@ -10,32 +11,29 @@ export class Prophet extends L {
   }
 
   flyToThrall(caller = this) {
-    return this.message(caller, 'прилететь к Траллу')
+    this.message(caller, 'прилететь к Траллу')
+    thrall.follow(this)
   }
 
   flyAway(caller = this) {
-    return this.message(caller, 'улететь')
+    this.message(caller, 'улететь')
+    thrall.goToOrcCamp()
   }
 
   turnIntoHuman(caller = this) {
-    return this.message(caller, 'превратиться в человека')
+    this.message(caller, 'превратиться в человека')
+    this.toGreet(this.thrall)
   }
 
   toGreet(caller = this) {
-    return this.message(caller, 'приветствовать')
+    this.message(caller, 'приветствовать')
+    thrall.gatherTroopsAndLeaveTheseLands(this)
   }
 
   turnIntoRaven(caller = this) {
-    return this.message(caller, 'превратиться в ворона')
+    this.message(caller, 'превратиться в ворона и улететь')
+    return L.end()
   }
-
-  // flyToThrall = this.getMethod('прилететь к Траллу')
-
-  // flyAway = this.getMethod('улететь')
-
-  // turnIntoHuman = this.getMethod('превратиться в человека')
-
-  // toGreet = this.getMethod('приветствовать')
-
-  // turnIntoRaven = this.getMethod('превратиться в ворона')
 }
+
+export const prophet = new Prophet()

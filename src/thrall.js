@@ -1,4 +1,6 @@
 import { L } from './L'
+import { orcs } from './orcs'
+import { prophet } from './prophet'
 
 export class Thrall extends L {
   constructor(params) {
@@ -10,124 +12,94 @@ export class Thrall extends L {
   }
 
   outOfBarracks(caller = this) {
-    return this.message(caller, 'выйти из казарм')
+    this.message(caller, 'выйти из казарм')
+    prophet.flyToThrall()
   }
 
   follow(caller = this) {
-    return this.message(caller, 'следовать за ним')
+    this.message(caller, 'следовать за ним')
+    prophet.flyAway()
   }
 
   goToOrcCamp(caller = this) {
-    return this.message(caller, 'идти к лагерю орков')
+    this.message(caller, 'идти к лагерю орков')
+    orcs.outOfBarracks()
   }
 
   toOrder(caller = this) {
-    return this.message(caller, 'приказывать')
+    this.message(caller, 'приказывать')
+    orcs.moveWith(this)
   }
 
   attackGnollCamp(caller = this) {
-    return L.r(0, 100) <= 5
-      ? this.message(
-          null,
-          'потерпел поражение в бою с гноллами',
-          false,
-          'color: red'
-        )
-      : this.message(caller, 'атаковать лагерь гноллов')
+    this.message(caller, 'атаковать лагерь гноллов')
+    if (L.r(0, 100) <= 5) {
+      this.message(
+        null,
+        'потерпел поражение в бою с гноллами',
+        false,
+        'color: red'
+      )
+      return L.fail()
+    } else {
+      this.payAttentionToMorlocksInRiver(this.orcs)
+    }
   }
 
   payAttentionToMorlocksInRiver(caller = this) {
-    return this.message(caller, 'обратить внимание на морлоков в реке')
+    this.message(caller, 'обратить внимание на морлоков в реке')
+    this.fightMorlocksAndCrossRiver()
   }
 
   fightMorlocksAndCrossRiver(caller = this) {
-    return L.r(0, 100) <= 5
-      ? this.message(
-          null,
-          'потерпел поражение в бою с морлоками и не перешел через реку',
-          false,
-          'color: red'
-        )
-      : this.message(caller, 'сразиться с морлоками и перейти через реку')
+    this.message(caller, 'сразиться с морлоками и перейти через реку')
+    if (L.r(0, 100) <= 5) {
+      this.message(
+        null,
+        'потерпел поражение в бою с морлоками и не перешел через реку',
+        false,
+        'color: red'
+      )
+      return L.fail()
+    } else {
+      orcs.beCarefulWhenNightFalls(this)
+    }
   }
 
   findHiddenItem(caller = this) {
-    return this.message(caller, 'найти спрятанный предмет')
+    this.message(caller, 'найти спрятанный предмет')
+    this.findGolemShelter()
   }
 
   findGolemShelter(caller = this) {
-    return this.message(caller, 'найти пристанище големов')
+    this.message(caller, 'найти пристанище големов')
+    this.fightGolemsAndMoveOn()
   }
 
   fightGolemsAndMoveOn(caller = this) {
-    return this.message(caller, 'сразиться с големами и двигаться дальше')
+    this.message(caller, 'сразиться с големами и двигаться дальше')
+    orcs.payAttentionToSleepingTrolls(this)
   }
 
   toDefeatTrolls(caller = this) {
-    return this.message(caller, 'победить троллей')
+    this.message(caller, 'победить троллей')
+    this.findProphet()
   }
 
   findProphet(caller = this) {
-    return L.r(0, 100) <= 5
-      ? this.message(null, 'не нашел Пророка', false, 'color: red')
-      : this.message(caller, 'найти Пророка')
+    this.message(caller, 'найти Пророка')
+    if (L.r(0, 100) <= 5) {
+      this.message(null, 'не нашел Пророка', false, 'color: red')
+      return L.fail()
+    } else {
+      prophet.turnIntoHuman()
+    }
   }
 
   gatherTroopsAndLeaveTheseLands(caller = this) {
-    return this.message(caller, 'собирать свои войска и покидать эти земли')
+    this.message(caller, 'собирать свои войска и покидать эти земли')
+    prophet.turnIntoRaven()
   }
-
-  // outOfBarracks = this.getMethod('выйти из казарм')
-
-  // follow = this.getMethod('следовать за ним')
-
-  // goToOrcCamp = this.getMethod('идти к лагерю орков')
-
-  // toOrder = this.getMethod('приказывать')
-
-  // attackGnollCamp = this.getMethod('атаковать лагерь гноллов', () => {
-  //   if (L.r(0, 100) <= 5) {
-  //     return this.message(null, 'потерпел поражение в бою с гноллами', false)
-  //   }
-  //   return true
-  // })
-
-  // payAttentionToMorlocksInRiver = this.getMethod(
-  //   'обратить внимание на морлоков в реке'
-  // )
-
-  // fightMorlocksAndCrossRiver = this.getMethod(
-  //   'сразиться с морлоками и перейти через реку',
-  //   () => {
-  //     if (L.r(0, 100) <= 5) {
-  //       this.message(
-  //         null,
-  //         'потерпел поражение в бою с морлоками и не перешел через реку',
-  //         false
-  //       )
-  //     }
-  //     return true
-  //   }
-  // )
-
-  // findHiddenItem = this.getMethod('найти спрятанный предмет')
-
-  // findGolemShelter = this.getMethod('найти пристанище големов')
-
-  // fightGolemsAndMoveOn = this.getMethod(
-  //   'сразиться с големами и двигаться дальше'
-  // )
-
-  // toDefeatTrolls = this.getMethod('победить троллей')
-
-  // findProphet = this.getMethod('найти Пророка', () => {
-  //   if (L.r(0, 100) <= 5) {
-  //     this.message('не нашел Пророка', false)
-  //   }
-  //   return true
-  // })
-
-  // gatherTroopsAndLeaveTheseLands = this.getMethod(
-  //   'собирать свои войска и покидать эти земли'
-  // )
 }
+
+export const thrall = new Thrall()

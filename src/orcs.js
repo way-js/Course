@@ -1,4 +1,5 @@
 import { L } from './L'
+import { thrall, Thrall } from './thrall'
 
 export class Orcs extends L {
   constructor(params) {
@@ -11,30 +12,24 @@ export class Orcs extends L {
   }
 
   outOfBarracks(caller = this) {
-    return this.message(caller, 'выйти из казарм')
+    this.message(caller, 'выйти из казарм')
+    thrall.toOrder(this)
   }
 
   moveWith(caller = this) {
-    return this.message(caller, 'двигаться с ним')
+    this.message(caller, 'двигаться с ним')
+    thrall.attackGnollCamp()
   }
 
   beCarefulWhenNightFalls(caller = this) {
-    return this.message(caller, 'быть осторожными с наступлением ночи')
+    this.message(caller, 'быть осторожными с наступлением ночи')
+    thrall.findHiddenItem()
   }
 
   payAttentionToSleepingTrolls(caller = this) {
-    return this.message(caller, 'обратить внимание на спящих троллей')
+    this.message(caller, 'обратить внимание на спящих троллей')
+    thrall.toDefeatTrolls()
   }
-
-  // outOfBarracks = this.getMethod('выйти из казарм')
-
-  // moveWith = this.getMethod('двигаться с ним')
-
-  // beCarefulWhenNightFalls = this.getMethod(
-  //   'быть осторожными с наступлением ночи'
-  // )
-
-  // payAttentionToSleepingTrolls = this.getMethod(
-  //   'обратить внимание на спящих троллей'
-  // )
 }
+
+export const orcs = new Orcs()

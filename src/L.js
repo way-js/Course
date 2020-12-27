@@ -5,7 +5,7 @@ export class L {
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
 
-  static addText(text, fontSize = '0px', color = 'white') {
+  static addText(text, fontSize, color) {
     const elem = document.getElementsByTagName('body')[0]
     elem.innerHTML += text
     elem.style.fontSize = fontSize
@@ -14,21 +14,37 @@ export class L {
 
   static isItNodeJS() {
     return typeof process !== 'undefined'
-    // if (typeof window === 'undefined') return true
-
-    // var backup = window,
-    //   window_can_be_deleted = delete window
-    // window = backup // Restoring from backup
-
-    // return window_can_be_deleted
   }
 
-  // static defaultCountObjects = 0
+  static begin() {
+    if (L.isItNodeJS()) {
+      console.log('НАЧАЛО')
+    } else {
+      L.addText('НАЧАЛО', '20px', 'black')
+    }
+  }
+
+  static end() {
+    if (L.isItNodeJS()) {
+      console.log('КОНЕЦ')
+    } else {
+      L.addText('КОНЕЦ', '20px', 'black')
+    }
+    return true
+  }
+
+  static fail() {
+    if (!L.isItNodeJS()) {
+      L.addText('Миссия провалена! ', '20px', 'red')
+    }
+    L.end()
+    return false
+  }
 
   constructor(params) {
     params = params || {
       name: 'Объект №' + toString(++L.defaultCountObjects),
-      color: 'white',
+      color: 'black',
       isPluralForm: false,
       style: '',
       fontSize: '0px',
@@ -78,9 +94,6 @@ export class L {
     }
     styleSpan = `style = 'font-weight:bold; color:${this.color};'`
     message = `<p ${styleP}><span ${styleSpan}>${this.name.toUpperCase()}:</span> ${callerName} ${message}.</p>`
-    // console.log(style)
-    // console.log(styleP)
-    // console.log(message)
     return message
   }
 
